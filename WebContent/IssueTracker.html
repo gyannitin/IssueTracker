@@ -1,0 +1,191 @@
+﻿
+<div ng-app="myApp">
+    <div ng-controller="TableCtrl">
+
+        <h1>
+            NAB Issues Tracker
+        </h1>
+        <br />
+        <div class="input-group col-xs-5 ">
+            <input class="form-control" ng-model="searchText" placeholder="Search" type="search" ng-change="search()" /> <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </span>
+        </div>
+        <br />
+        <br />
+        <table class="table  table-hover data-table myTable table-bordered">
+            <thead>
+                <tr>
+                    <th class="id">
+                        <a href="#" ng-click="sort('id',$event)">
+                            Id
+                            <span class="{{Header[0]}}"></span>
+                        </a>
+
+                    </th>
+                    <th class="IssueDesc">
+                        <a ng-click="sort('projectTeam')" href="#">
+                            Project team
+                            <span class="{{Header[1]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Status">
+                        <a ng-click="sort('assetName')" href="#">
+                            Asset name
+                            <span class="{{Header[2]}}"></span>
+                        </a>
+                    </th>
+                    <th class="SME">
+                        <a ng-click="sort('assetID')" href="#">
+                            AssetID
+                            <span class="{{Header[3]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Repeated">
+                        <a ng-click="sort('impDate')" href="#">
+                            Implementation Date
+                            <span class="{{Header[4]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('issueDesc')" href="#">
+                            Issue Description
+                            <span class="{{Header[5]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('classification')" href="#">
+                            Classification
+                            <span class="{{Header[6]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('status')" href="#">
+                            Status
+                            <span class="{{Header[7]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('sMEs')" href="#">
+                            SMEs
+                            <span class="{{Header[8]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('serverimpacted')" href="#">
+                            Server Impacted
+                            <span class="{{Header[9]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('repeated')" href="#">
+                            Repeated
+                            <span class="{{Header[10]}}"></span>
+                        </a>
+                    </th>
+                    <th class="Suggestion">
+                        <a ng-click="sort('suggestion')" href="#">
+                            Suggestion
+                            <span class="{{Header[11]}}"></span>
+                        </a>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                
+		<tr ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+                   <td>{{item.id}}</td>
+                    <td>{{item.projectTeam}}</td>
+                    <td>{{item.assetName}}</td>
+                    <td>{{item.assetID}}</td>
+                    <td>{{item.impDate}}</td>
+                    <td>{{item.issueDesc}}</td>
+                    <td>{{item.classification}}</td>
+                    <td>{{item.status}}</td>
+                    <td>{{item.sMEs}}</td>
+                    <td>{{item.serverimpacted}}</td>
+                    <td>{{item.repeated}}</td>
+                    <td>{{item.suggestion}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <ul class="pagination pagination-sm">
+            <li ng-class="{active:0}">
+                <a href="#" ng-click="firstPage()">First</a>
+
+            </li>
+            <li ng-repeat="n in range(ItemsByPage.length)">
+                <a href="#" ng-click="setPage()" ng-bind="n+1">1</a>
+
+            </li>
+            <li>
+                <a href="#" ng-click="lastPage()">Last</a>
+
+            </li>
+        </ul>
+        <h3>
+            Add New Issue
+        </h3>
+        <div class="row">
+            <div class="col-xs-2">
+<!--                 <input type="text" ng-model="newId" class="form-control" placeholder="IssueId"> -->
+                
+                  <input type="text" ng-model="newProjectName" class="form-control" placeholder="Project Name">
+                    <br />
+                  <input type="text" ng-model="newAssetName" class="form-control" placeholder="Asset Name">
+                    <br />
+                  <input type="text" ng-model="newAssetID" class="form-control" placeholder="Asset ID">
+                    <br />                  
+            </div>
+            <div class="col-xs-2">
+                <select ng-model="newStatus" class="form-control">
+                    <option value="">Status</option> <!-- not selected / blank option -->
+                    <option value="Success">Success</option> <!-- interpolation -->
+                    <option value="Failure">Failure</option>
+                </select>
+                <br />
+               <input type="text" ng-model="newImpDate" class="form-control" placeholder="Implementation Date">
+                       <br />
+                <input type="text" ng-model="newIssueDesc" class="form-control" placeholder="Issue Description">
+                            
+                                
+            </div>
+            <div class="col-xs-2">
+            <input type="text" ng-model="newSMEs" class="form-control" placeholder="Key SMEs involved in resolution">
+            <br/>
+                <select ng-model="newRepeated" class="form-control">
+                    <option value="">Repeated</option> <!-- not selected / blank option -->
+                    <option value="Yes">Yes</option> <!-- interpolation -->
+                    <option value="No">No</option>
+                </select>
+                <br/>
+ 			
+ 			 <input type="text" ng-model="newSuggestion" class="form-control" placeholder="Suggestion to prevent">
+            </div>
+            <div class="col-xs-2">
+            <input type="text" ng-model="newServerImpacted" class="form-control" placeholder="Server Impacted">
+ 			<br/>
+ 		
+                 <input type="text" ng-model="newClassification" class="form-control" placeholder="Classification">     
+            </div>
+            <div class="col-xs-2">
+                <button ng-click="add()" type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span>
+
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Ends Controller -->
+</div>
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--Bootstrap-->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="css/style.css" rel="stylesheet" media="screen">
+<script src="js/angular.min.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/Controller.js"></script>
